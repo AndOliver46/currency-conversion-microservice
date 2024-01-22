@@ -1,5 +1,8 @@
 package com.andoliver46.microservices.limitsservice.bean;
 
+import org.springframework.boot.context.properties.ConfigurationProperties;
+
+@ConfigurationProperties(prefix = "limits-service")
 public class Limits {
 
 	private int minimum;

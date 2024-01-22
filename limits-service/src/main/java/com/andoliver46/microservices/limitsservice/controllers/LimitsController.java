@@ -7,10 +7,17 @@ import com.andoliver46.microservices.limitsservice.bean.Limits;
 
 @RestController
 public class LimitsController {
+	
+	private Limits limits;
+	
+	public LimitsController(Limits limits) {
+		super();
+		this.limits = limits;
+	}
 
 	@GetMapping("/limits")
 	public Limits retrieveLimits() {
-		return new Limits(1,1000);
+		return limits;
 	}
 	
 	
