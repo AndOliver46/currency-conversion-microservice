@@ -18,8 +18,6 @@ public class CurrencyExchangeController {
 		this.environment = environment;
 	}
 
-
-
 	@GetMapping("/currency-exchange/from/{from}/to/{to}")
 	public CurrencyExchange getExchangeValue(@PathVariable("from") String from, @PathVariable("to") String to) {
 		CurrencyExchange currencyExchange = new CurrencyExchange(1001L, from, to, BigDecimal.valueOf(65));
