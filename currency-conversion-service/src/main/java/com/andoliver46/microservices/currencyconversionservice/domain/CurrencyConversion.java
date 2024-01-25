@@ -1,4 +1,4 @@
-package com.andoliver46.microservices.currencyconversionservice.controller.domain;
+package com.andoliver46.microservices.currencyconversionservice.domain;
 
 import java.math.BigDecimal;
 

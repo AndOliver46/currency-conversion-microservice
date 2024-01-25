@@ -8,11 +8,19 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
-import com.andoliver46.microservices.currencyconversionservice.controller.domain.CurrencyConversion;
+import com.andoliver46.microservices.currencyconversionservice.controller.proxy.CurrencyExchangeProxy;
+import com.andoliver46.microservices.currencyconversionservice.domain.CurrencyConversion;
 
 @RestController
 public class CurrencyConversionController {
 	
+	private final CurrencyExchangeProxy proxy;
+	
+	public CurrencyConversionController(CurrencyExchangeProxy proxy) {
+		super();
+		this.proxy = proxy;
+	}
+
 	@GetMapping("/currency-conversion/from/{from}/to/{to}/quantity/{quantity}")
 	public CurrencyConversion calculateCurrency(@PathVariable String from, @PathVariable String to, @PathVariable BigDecimal quantity) {
 		
@@ -20,6 +28,18 @@ public class CurrencyConversionController {
 		CurrencyConversion currencyConversion = response.getBody();
 		currencyConversion.setQuantity(quantity);
 		currencyConversion.calculateTotalAmount();
+		currencyConversion.setEnvironment(currencyConversion.getEnvironment() + " rest template");
+		
+		return currencyConversion;
+	}
+	
+	@GetMapping("/v2/currency-conversion/from/{from}/to/{to}/quantity/{quantity}")
+	public CurrencyConversion calculateCurrencyV2(@PathVariable String from, @PathVariable String to, @PathVariable BigDecimal quantity) {
+		
+		CurrencyConversion currencyConversion = proxy.getExchangeValue(from, to);
+		currencyConversion.setQuantity(quantity);
+		currencyConversion.calculateTotalAmount();
+		currencyConversion.setEnvironment(currencyConversion.getEnvironment() + " feign");
 		
 		return currencyConversion;
 	}
