@@ -82,5 +82,9 @@ public class CurrencyConversion {
 	public void setEnvironment(String environment) {
 		this.environment = environment;
 	}
+	
+	public void calculateTotalAmount() {
+		this.totalCalculatedAmount = this.quantity.multiply(this.conversionMultiple);
+	}
 
 }
