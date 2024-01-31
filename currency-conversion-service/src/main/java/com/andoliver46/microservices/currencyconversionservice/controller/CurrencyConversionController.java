@@ -14,17 +14,20 @@ import com.andoliver46.microservices.currencyconversionservice.domain.CurrencyCo
 @RestController
 public class CurrencyConversionController {
 	
+	private final RestTemplate restTemplate;
 	private final CurrencyExchangeProxy proxy;
 	
-	public CurrencyConversionController(CurrencyExchangeProxy proxy) {
+	public CurrencyConversionController(CurrencyExchangeProxy proxy, RestTemplate restTemplate) {
 		super();
 		this.proxy = proxy;
+		this.restTemplate = restTemplate;
 	}
 
 	@GetMapping("/currency-conversion/from/{from}/to/{to}/quantity/{quantity}")
 	public CurrencyConversion calculateCurrency(@PathVariable String from, @PathVariable String to, @PathVariable BigDecimal quantity) {
 		
-		ResponseEntity<CurrencyConversion> response = new RestTemplate().getForEntity("http://localhost:8000/currency-exchange/from/{from}/to/{to}", CurrencyConversion.class, from, to);
+		//ResponseEntity<CurrencyConversion> response = new RestTemplate().getForEntity("http://localhost:8000/currency-exchange/from/{from}/to/{to}", CurrencyConversion.class, from, to);
+		ResponseEntity<CurrencyConversion> response = restTemplate.getForEntity("http://localhost:8000/currency-exchange/from/{from}/to/{to}", CurrencyConversion.class, from, to);
 		CurrencyConversion currencyConversion = response.getBody();
 		currencyConversion.setQuantity(quantity);
 		currencyConversion.calculateTotalAmount();
