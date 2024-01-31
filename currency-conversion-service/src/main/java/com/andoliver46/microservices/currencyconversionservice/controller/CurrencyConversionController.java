@@ -27,6 +27,7 @@ public class CurrencyConversionController {
 	public CurrencyConversion calculateCurrency(@PathVariable String from, @PathVariable String to, @PathVariable BigDecimal quantity) {
 		
 		//ResponseEntity<CurrencyConversion> response = new RestTemplate().getForEntity("http://localhost:8000/currency-exchange/from/{from}/to/{to}", CurrencyConversion.class, from, to);
+		//In docker hardcoded localhost will not work, to solve this problem we can put a env variable or change localhost to currency-exchange (host name provided by docker)
 		ResponseEntity<CurrencyConversion> response = restTemplate.getForEntity("http://localhost:8000/currency-exchange/from/{from}/to/{to}", CurrencyConversion.class, from, to);
 		CurrencyConversion currencyConversion = response.getBody();
 		currencyConversion.setQuantity(quantity);
