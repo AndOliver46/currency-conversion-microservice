@@ -104,9 +104,6 @@
 					<image>
 						<name>
 							andoliver46/${project.artifactId}:${project.version}</name>
-						<env>
-							<BP_JVM_VERSION>${java.version}</BP_JVM_VERSION>
-						</env>
 					</image>
 					<pullPolicy>IF_NOT_PRESENT</pullPolicy>
 				</configuration>
